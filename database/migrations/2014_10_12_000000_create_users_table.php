@@ -20,12 +20,13 @@ return new class () extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->enum('document_type', array('CPF', 'CNPJ'))->nullable();
             $table->string('document')->nullable();
-            $table->string('username')->unique();
+            $table->string('username')->unique()->nullable();
             $table->string('phone')->nullable();
             $table->unsignedInteger('sponsor_id')->nullable();
             $table->unsignedInteger('status_id')->nullable()->default(1);
             $table->date('birth_date')->nullable();
             $table->string('password');
+            $table->integer('verification_code')->nullable();
             $table->rememberToken();
             $table->timestamps();
             $table->foreign('sponsor_id')->references('id')->on('users')->nullOnDelete();

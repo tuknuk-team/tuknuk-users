@@ -51,7 +51,8 @@ class User extends Authenticatable
         'sponsor_id',
         'birth_date',
         'status_id',
-        'genre_id'
+        'genre_id',
+        'verification_code'
     ];
 
 

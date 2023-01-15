@@ -28,18 +28,20 @@ class UserOnboardingResource
      */
     public function updateStepOne(StepOneRequest $request)
     {
+
         $validated = $request->validated();
 
         # Profile
-        $profile = Arr::only($validated, array('bio', 'link_facebook', 'link_twitter', 'link_instagram', 'link_tiktok'));
+        $profile = Arr::only($validated, array('bio'));
         $request->user()->profile()->update($profile);
 
         # Avatar
         if ($validated['avatar']) {
-            $avatar_url = (new FileUploadHelper())->storeFile($validated['avatar'], 'avatars');
-            $request->user()->profile()->update([
-                'avatar' => $avatar_url
-            ]);
+
+            // $avatar_url = (new FileUploadHelper())->storeFile($validated['avatar'], 'avatars');
+            // $request->user()->profile()->update([
+            //     'avatar' => $avatar_url
+            // ]);
         }
 
         $request->user()->onboarding->update([

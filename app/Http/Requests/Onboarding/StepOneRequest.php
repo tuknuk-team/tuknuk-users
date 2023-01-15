@@ -28,12 +28,8 @@ class StepOneRequest extends FormRequest
     {
         return [
             'avatar' => ['required', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
-            'username' => ['required', 'alpha_dash', 'min:3', 'string', 'max:255', 'unique:users,username'.((!auth()->guest()) ? ','.auth()->user()->id : '')],
+            'username' => ['required', 'alpha_dash', 'min:3', 'string', 'max:255', 'unique:users,username'],
             'bio' => ['nullable', 'string', 'max:255'],
-            'link_facebook' => ['nullable', 'string', 'max:255'],
-            'link_instagram' => ['nullable', 'string', 'max:255'],
-            'link_twitter' => ['nullable', 'string', 'max:255'],
-            'link_tiktok' => ['nullable', 'string', 'max:255'],
         ];
     }
 

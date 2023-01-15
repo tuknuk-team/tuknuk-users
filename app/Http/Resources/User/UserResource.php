@@ -3,7 +3,11 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Helpers\CodeVerifyHelper;
 use App\Models\User;
+use App\Notifications\Auth\VerifyCodeNotification;
+use App\Notifications\Auth\RegisterNotification;
+
 
 class UserResource
 {
@@ -38,6 +42,16 @@ class UserResource
     }
 
     /**
+     * @param int $id
+     *
+     * @return \App\Models\User
+     */
+    public function verifyCode(int $code, string $email)
+    {
+        return User::where('verification_code', $code)->where('email', $email)->first();
+    }
+
+    /**
      * Register new user
      *
      * @param  \App\Http\Requests\Auth\RegisterRequest $request
@@ -49,20 +63,25 @@ class UserResource
     {
         $validated = $request->validated();
 
-        $sponsor = ($validated['sponsor_username']) ? $this->findByUsername($request->sponsor_username) : null;
+        $sponsor = isset($validated['sponsor_username']) ? $this->findByUsername($request->sponsor_username) : null;
+
+        $code = CodeVerifyHelper::generateCode();
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'genre_id' => (isset($validated['genre_id']) && $validated['genre_id'])? $validated['genre_id'] : null,
+            'birth_date' => $validated['birth_date'],
             'password' => bcrypt($validated['password']),
-            'username' => $validated['username'],
+            'verification_code' => $code,
             'sponsor_id' => ($sponsor) ? $sponsor->id : null
         ]);
 
         if (!$user) {
             throw new \Exception('Não foi possível se registrar. Tente novamente!');
         }
+
+        // $user->notify(new RegisterNotification($user));
+        $user->notify(new VerifyCodeNotification($user->id, $code));
 
         return $user;
     }

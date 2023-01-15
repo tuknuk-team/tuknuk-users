@@ -23,7 +23,6 @@ class RegisterController extends Controller
                 DB::commit();
 
                 $apiName = ($request->header('device-type')) ? $request->header('device-type') : 'web';
-
                 return response()->json([
                     'status'  => true,
                     'message' => __('Cadastro realizado com sucesso'),

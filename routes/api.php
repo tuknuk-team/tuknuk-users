@@ -33,6 +33,12 @@ Route::group(['prefix' => 'auth'], function () {
 
 # API Logged
 Route::group(['middleware' => 'auth:sanctum'], function () {
+
+    # Verify Code
+    Route::group(['prefix' => 'onboarding'], function () {
+        Route::post('verify-code', [App\Http\Controllers\Api\Auth\VerifyController::class, 'verifyCode']);
+    });
+
     # Onboarding
     Route::group(['prefix' => 'onboarding'], function () {
         Route::get('actual-step', [App\Http\Controllers\Api\Onboarding\OnboardingController::class, 'getActualStep']);
@@ -120,7 +126,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         # Update Device token
         Route::post('device-token/update', [App\Http\Controllers\Api\Settings\SettingsDeviceTokenController::class, 'updateDeviceToken']);
-
     });
 
     # Publication
@@ -153,7 +158,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('comments/{uuid}/{commentParentId}', [App\Http\Controllers\Api\Publication\PublicationCommentController::class, 'historySubByPublication']);
         Route::get('comment/like/{id}', [App\Http\Controllers\Api\Publication\PublicationCommentController::class, 'like']);
         Route::get('comment/dislike/{id}', [App\Http\Controllers\Api\Publication\PublicationCommentController::class, 'dislike']);
-
     });
 
     # Rooms
@@ -179,7 +183,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         # Series
         Route::get('/series/top', [App\Http\Controllers\Api\Discover\DiscoverSeriesController::class, 'top']);
-
     });
 
     # Notifications
@@ -221,7 +224,4 @@ Route::group(['prefix' => 'helpers'], function () {
     Route::get('privacy/types-with-options', [App\Http\Controllers\Api\Helpers\HelpersController::class, 'getAllPrivacyTypeWithOption']);
     Route::get('privacy/types', [App\Http\Controllers\Api\Helpers\HelpersController::class, 'getAllPrivacyType']);
     Route::get('privacy/options', [App\Http\Controllers\Api\Helpers\HelpersController::class, 'getAllPrivacyOption']);
-
 });
-
-
