@@ -30,7 +30,6 @@ class UserOnboardingResource
     {
 
         $validated = $request->validated();
-
         # Profile
         $profile = Arr::only($validated, array('bio'));
         $request->user()->profile()->update($profile);
@@ -38,10 +37,10 @@ class UserOnboardingResource
         # Avatar
         if ($validated['avatar']) {
 
-            // $avatar_url = (new FileUploadHelper())->storeFile($validated['avatar'], 'avatars');
-            // $request->user()->profile()->update([
-            //     'avatar' => $avatar_url
-            // ]);
+            $avatar_url = (new FileUploadHelper())->storeFile($validated['avatar'], 'avatars');
+            $request->user()->profile()->update([
+                'avatar' => $avatar_url
+            ]);
         }
 
         $request->user()->onboarding->update([

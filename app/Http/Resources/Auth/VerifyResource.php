@@ -4,6 +4,8 @@ namespace App\Http\Resources\Auth;
 
 use App\Http\Requests\Auth\VerifyRequest;
 use App\Http\Resources\User\UserResource;
+use App\Helpers\CodeVerifyHelper;
+use App\Notifications\Auth\VerifyCodeNotification;
 use App\Models\User;
 
 class VerifyResource
@@ -23,8 +25,25 @@ class VerifyResource
             throw new \Exception('E-mail não pode ser validado', 404);
         }
 
-        // 'email_verified_at' => date('Y-m-d H:i:s')
+        $code->email_verified_at = date("Y-m-d H:i:s");
+        $code->save();
 
-        throw new \Exception('Ocorreu um erro. Tente novamente!');
+        return true;
+    }
+
+    /**
+     * @param \App\Http\Requests\Auth\VerifyRequest $request
+     * @return bool
+     * @throws \Exception
+     */
+
+    public function requestVerify($user)
+    {
+        $code = CodeVerifyHelper::generateCode();
+        $user->verification_code = $code;
+        $user->notify(new VerifyCodeNotification($user->id, $code));
+        $user->save();
+
+        return $user->verification_code;
     }
 }
