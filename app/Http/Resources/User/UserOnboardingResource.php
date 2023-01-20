@@ -31,7 +31,7 @@ class UserOnboardingResource
 
         $validated = $request->validated();
         # Profile
-        $profile = Arr::only($validated, array('bio'));
+        $profile = Arr::only($validated, array('bio', 'is_private'));
         $request->user()->profile()->update($profile);
 
         # Avatar

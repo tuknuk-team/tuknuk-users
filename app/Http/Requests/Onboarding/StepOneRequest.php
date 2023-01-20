@@ -30,6 +30,7 @@ class StepOneRequest extends FormRequest
             'avatar' => ['required', 'image', 'mimes:jpg,png,jpeg', 'max:2048'],
             'username' => ['required', 'alpha_dash', 'min:3', 'string', 'max:255', 'unique:users,username'],
             'bio' => ['nullable', 'string', 'max:255'],
+            'is_private' => ['nullable', 'boolean'],
         ];
     }
 
@@ -47,7 +48,8 @@ class StepOneRequest extends FormRequest
             'username.required' => __('O nome de usuário é obrigatório'),
             'username.unique' => __('O nome de usuário já esta sendo utilizado'),
             'username.alpha_dash' => __('Não pode conter espaços'),
-            'bio.max' => __('A bio pode conter até 255 carácteres')
+            'bio.max' => __('A bio pode conter até 255 carácteres'),
+            'is_private.boolean' => __('Altere a visibilidade do seu perfil')
         ];
     }
 }
