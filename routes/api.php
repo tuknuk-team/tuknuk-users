@@ -68,13 +68,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         # Data
         Route::get('{username}', [App\Http\Controllers\Api\Profile\ProfileController::class, 'data']);
 
-        # Publications
-        Route::get('{username}/publications', [App\Http\Controllers\Api\Profile\ProfileController::class, 'publications'])->name('api.profile.publications');
-        Route::get('{username}/publications/{type}', [App\Http\Controllers\Api\Profile\ProfileController::class, 'publicationsByType']);
-
-        # Publications Liked
-        Route::get('{username}/publications-liked', [App\Http\Controllers\Api\Profile\ProfileController::class, 'publicationsLiked'])->name('api.profile.publicationsLiked');
-
         # Following
         Route::get('{username}/following', [App\Http\Controllers\Api\Profile\ProfileController::class, 'following'])->name('api.profile.following');
 
@@ -128,83 +121,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('device-token/update', [App\Http\Controllers\Api\Settings\SettingsDeviceTokenController::class, 'updateDeviceToken']);
     });
 
-    # Publication
-    Route::group(['prefix' => 'publication'], function () {
-        # Feed
-        Route::get('feed', [App\Http\Controllers\Api\Publication\PublicationFeedController::class, 'feed'])->name('api.publication.feed');
-
-        # Create
-        Route::get('types', [App\Http\Controllers\Api\Publication\PublicationCreateController::class, 'types']);
-        Route::post('create', [App\Http\Controllers\Api\Publication\PublicationCreateController::class, 'create']);
-        Route::post('search-discover', [App\Http\Controllers\Api\Publication\PublicationCreateController::class, 'searchDiscover']);
-
-        # Show
-        Route::get('data/{uuid}', [App\Http\Controllers\Api\Publication\PublicationFeedController::class, 'publicationData']);
-
-        # Likes
-        Route::get('like/{uuid}', [App\Http\Controllers\Api\Publication\PublicationLikeController::class, 'like']);
-        Route::get('dislike/{uuid}', [App\Http\Controllers\Api\Publication\PublicationLikeController::class, 'dislike']);
-
-        # Likes
-        Route::get('save/{uuid}', [App\Http\Controllers\Api\Publication\PublicationSaveController::class, 'save']);
-        Route::get('save/{uuid}/remove', [App\Http\Controllers\Api\Publication\PublicationSaveController::class, 'remove']);
-
-        # Report
-        Route::get('report/{uuid}', [App\Http\Controllers\Api\Publication\PublicationReportController::class, 'report']);
-
-        # Comment
-        Route::post('comment/{uuid}', [App\Http\Controllers\Api\Publication\PublicationCommentController::class, 'create']);
-        Route::get('comments/{uuid}', [App\Http\Controllers\Api\Publication\PublicationCommentController::class, 'historyByPublication'])->name('api.publication.comments');
-        Route::get('comments/{uuid}/{commentParentId}', [App\Http\Controllers\Api\Publication\PublicationCommentController::class, 'historySubByPublication']);
-        Route::get('comment/like/{id}', [App\Http\Controllers\Api\Publication\PublicationCommentController::class, 'like']);
-        Route::get('comment/dislike/{id}', [App\Http\Controllers\Api\Publication\PublicationCommentController::class, 'dislike']);
-    });
-
-    # Rooms
-    Route::group(['prefix' => 'rooms'], function () {
-        # Create
-        Route::post('/create', [App\Http\Controllers\Api\Room\RoomCreateController::class, 'create']);
-
-        # Lists
-        Route::get('/list/{type}', [App\Http\Controllers\Api\Room\RoomListController::class, 'list']);
-
-        # Room
-        Route::get('/data/{uuid}', [App\Http\Controllers\Api\Room\RoomController::class, 'data']);
-
-        # Participate
-        Route::get('/participate/{uuid}', [App\Http\Controllers\Api\Room\RoomController::class, 'participateStart']);
-        Route::post('/participate', [App\Http\Controllers\Api\Room\RoomController::class, 'participateFinish']);
-    });
-
-    # Rooms
-    Route::group(['prefix' => 'discover'], function () {
-        # Movies
-        Route::get('/movies/top', [App\Http\Controllers\Api\Discover\DiscoverMoviesController::class, 'top']);
-
-        # Series
-        Route::get('/series/top', [App\Http\Controllers\Api\Discover\DiscoverSeriesController::class, 'top']);
-    });
-
     # Notifications
     Route::get('/notifications', [App\Http\Controllers\Api\Notifications\NotificationsController::class, 'list'])->name('api.notifications');
-
-    # Chats
-    Route::group(['prefix' => 'chat'], function () {
-        # Chats
-        Route::get('/list', [App\Http\Controllers\Api\Chat\ChatController::class, 'chats']);
-        Route::post('/create', [App\Http\Controllers\Api\Chat\ChatController::class, 'create']);
-        Route::get('/show/{uuid}', [App\Http\Controllers\Api\Chat\ChatController::class, 'show']);
-
-        # Message
-        Route::get('/show/{uuid}/messages', [App\Http\Controllers\Api\Chat\ChatMessageController::class, 'show']);
-        Route::post('/show/{uuid}/messages/send', [App\Http\Controllers\Api\Chat\ChatMessageController::class, 'create']);
-    });
-
-    # Search
-    Route::group(['prefix' => 'search'], function () {
-        # Chats
-        Route::post('/by-username', [App\Http\Controllers\Api\Search\SearchController::class, 'searchUsername']);
-    });
 });
 
 # Helpers

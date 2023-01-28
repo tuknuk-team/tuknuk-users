@@ -12,10 +12,6 @@ use Database\Seeders\Data\DataNotificationTypeSeeder;
 use Database\Seeders\Data\DataPrivacyTypeOptionSeeder;
 use Database\Seeders\Data\DataPrivacyTypeSeeder;
 use Database\Seeders\Onboarding\OnboardingStepSeeder;
-use Database\Seeders\Publication\PublicationStatusSeeder;
-use Database\Seeders\Publication\PublicationTypeSeeder;
-use Database\Seeders\Room\RoomCategorySeeder;
-use Database\Seeders\Room\RoomStatusSeeder;
 use Database\Seeders\User\UserComplianceStatusSeeder;
 use Database\Seeders\User\UserSeeder;
 use Database\Seeders\User\UserStatusSeeder;
@@ -46,12 +42,5 @@ class DatabaseSeeder extends Seeder
         $this->call(UserStatusSeeder::class);
         $this->call(UserComplianceStatusSeeder::class);
         $this->call(UserSeeder::class);
-
-        # Publication
-        $this->call(PublicationStatusSeeder::class);
-        $this->call(PublicationTypeSeeder::class);
-
-        # Rooms
-        $this->call(RoomStatusSeeder::class);
     }
 }

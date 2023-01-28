@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Models\Chat\Chat;
 use App\Models\Data\DataGenre;
 use App\Models\Publication\Publication;
 use App\Models\Room\Room;
@@ -249,15 +248,6 @@ class User extends Authenticatable
         return $this->hasMany(Room::class, 'user_id', 'id');
     }
 
-    /**
-     * Get the chats from user
-     *
-     * @return \App\Models\Chat\Chat
-     */
-    public function chats()
-    {
-        return $this->hasMany(Chat::class, 'created_by', 'id');
-    }
 
     /**
      * Get status
@@ -278,6 +268,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserTokenDevice::class, 'user_id', 'id');
     }
-
-
 }
